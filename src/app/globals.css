@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  --color-on-surface-variant: #595c5b;
+  --color-surface: #f5f7f5;
+  --color-primary-fixed: #8cfece;
+  --color-on-error: #ffefee;
+  --color-tertiary-container: #92dcf8;
+  --color-on-secondary-container: #653f00;
+  --color-tertiary-fixed: #92dcf8;
+  --color-primary-container: #8cfece;
+  --color-on-primary-fixed: #004d36;
+  --color-secondary: #805100;
+  --color-inverse-primary: #8cfece;
+  --color-inverse-surface: #0b0f0e;
+  --color-on-tertiary-container: #004e61;
+  --color-on-tertiary-fixed: #003a48;
+  --color-background: #f5f7f5;
+  --color-error: #b31b25;
+  --color-on-secondary-fixed: #4b2e00;
+  --color-surface-container-high: #e0e3e1;
+  --color-surface-container-highest: #d9dedb;
+  --color-outline: #747776;
+  --color-surface-tint: #00694b;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-secondary-fixed-variant: #714800;
+  --color-on-primary-container: #006145;
+  --color-secondary-dim: #704700;
+  --color-on-surface: #2c2f2e;
+  --color-primary: #00694b;
+  --color-error-dim: #9f0519;
+  --color-tertiary-fixed-dim: #84cee9;
+  --color-primary-dim: #005b41;
+  --color-surface-container-low: #eff1ef;
+  --color-surface-dim: #d1d5d3;
+  --color-on-tertiary: #e2f6ff;
+  --color-on-secondary: #fff0e3;
+  --color-surface-bright: #f5f7f5;
+  --color-on-background: #2c2f2e;
+  --color-on-primary: #c7ffe3;
+  --color-tertiary-dim: #00576c;
+  --color-secondary-fixed-dim: #ffb54e;
+  --color-primary-fixed-dim: #7eefc0;
+  --color-outline-variant: #abaeac;
+  --color-inverse-on-surface: #9b9d9c;
+  --color-tertiary: #00647c;
+  --color-surface-container: #e6e9e7;
+  --color-on-primary-fixed-variant: #006d4e;
+  --color-secondary-container: #ffc882;
+  --color-secondary-fixed: #ffc882;
+  --color-surface-variant: #d9dedb;
+  --color-on-tertiary-fixed-variant: #00586d;
+  --color-on-error-container: #570008;
+  --color-error-container: #fb5151;
+
+  --font-headline: var(--font-plus-jakarta);
+  --font-body: var(--font-be-vietnam);
+  --font-label: var(--font-plus-jakarta);
+
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+}
+
+@layer utilities {
+  .glass-nav {
+    background: rgba(245, 247, 245, 0.7);
+    backdrop-filter: blur(24px);
+  }
+  .primary-gradient {
+    background: linear-gradient(135deg, #00694b 0%, #7eefc0 100%);
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}

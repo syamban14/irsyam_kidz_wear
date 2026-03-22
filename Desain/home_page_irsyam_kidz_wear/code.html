@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Irsyam Kidz Wear | The Modern Playroom</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#595c5b",
+              "surface": "#f5f7f5",
+              "primary-fixed": "#8cfece",
+              "on-error": "#ffefee",
+              "tertiary-container": "#92dcf8",
+              "on-secondary-container": "#653f00",
+              "tertiary-fixed": "#92dcf8",
+              "primary-container": "#8cfece",
+              "on-primary-fixed": "#004d36",
+              "secondary": "#805100",
+              "inverse-primary": "#8cfece",
+              "inverse-surface": "#0b0f0e",
+              "on-tertiary-container": "#004e61",
+              "on-tertiary-fixed": "#003a48",
+              "background": "#f5f7f5",
+              "error": "#b31b25",
+              "on-secondary-fixed": "#4b2e00",
+              "surface-container-high": "#e0e3e1",
+              "surface-container-highest": "#d9dedb",
+              "outline": "#747776",
+              "surface-tint": "#00694b",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed-variant": "#714800",
+              "on-primary-container": "#006145",
+              "secondary-dim": "#704700",
+              "on-surface": "#2c2f2e",
+              "primary": "#00694b",
+              "error-dim": "#9f0519",
+              "tertiary-fixed-dim": "#84cee9",
+              "primary-dim": "#005b41",
+              "surface-container-low": "#eff1ef",
+              "surface-dim": "#d1d5d3",
+              "on-tertiary": "#e2f6ff",
+              "on-secondary": "#fff0e3",
+              "surface-bright": "#f5f7f5",
+              "on-background": "#2c2f2e",
+              "on-primary": "#c7ffe3",
+              "tertiary-dim": "#00576c",
+              "secondary-fixed-dim": "#ffb54e",
+              "primary-fixed-dim": "#7eefc0",
+              "outline-variant": "#abaeac",
+              "inverse-on-surface": "#9b9d9c",
+              "tertiary": "#00647c",
+              "surface-container": "#e6e9e7",
+              "on-primary-fixed-variant": "#006d4e",
+              "secondary-container": "#ffc882",
+              "secondary-fixed": "#ffc882",
+              "surface-variant": "#d9dedb",
+              "on-tertiary-fixed-variant": "#00586d",
+              "on-error-container": "#570008",
+              "error-container": "#fb5151"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        background: rgba(245, 247, 245, 0.7);
+        backdrop-filter: blur(24px);
+      }
+      .primary-gradient {
+        background: linear-gradient(135deg, #00694b 0%, #7eefc0 100%);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 glass-nav rounded-full shadow-[0_20px_40px_rgba(44,47,46,0.06)] flex justify-between items-center px-8 py-3">
+<div class="text-2xl font-black text-emerald-800 dark:text-emerald-300 tracking-tight font-headline">
+            Irsyam Kidz Wear
+        </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-sm font-bold text-emerald-700 border-b-2 border-emerald-500 py-1 font-label" href="#">Boys</a>
+<a class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors font-label" href="#">Girls</a>
+<a class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors font-label" href="#">Babies</a>
+<a class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors font-label" href="#">New Arrivals</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-emerald-50 rounded-full transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-emerald-700" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="p-2 hover:bg-emerald-50 rounded-full transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-emerald-700" data-icon="person">person</span>
+</button>
+</div>
+</nav>
+<main class="pt-28">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-6 mb-20">
+<div class="relative h-[600px] rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(44,47,46,0.06)] bg-primary-container/20">
+<div class="absolute inset-0 flex flex-col md:flex-row items-center">
+<div class="w-full md:w-1/2 p-12 md:p-20 z-10">
+<span class="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs font-bold mb-6 tracking-widest uppercase">Seasonal Edit</span>
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold text-on-surface leading-none mb-8">
+                            Sweet <span class="text-primary italic">Summer</span> Collection
+                        </h1>
+<p class="text-lg text-on-surface-variant max-w-md mb-10 leading-relaxed">
+                            Crafted for sunshine adventures and backyard explorations. Breathable fabrics meet playful designs.
+                        </p>
+<button class="primary-gradient text-on-primary px-10 py-4 rounded-xl font-headline font-bold text-lg flex items-center gap-3 shadow-lg active:scale-95 transition-transform">
+                            Shop Summer 
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="w-full md:w-1/2 h-full relative overflow-hidden">
+<img alt="Happy kids wearing summer collection" class="absolute inset-0 w-full h-full object-cover rounded-l-3xl" data-alt="Two happy children playing outdoors in summer clothes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8WITzGtyXVNSZXnbWOaUeZug2PRQ-jZ9hj2dibV8WuPsdHk5t99fPj1vWVp200llXuiO6SsftWDShBsbiSdVmNSTj1thpkRW7zegLnmUOj_Tmb2RcItnBWwGEpC8LXJlUq_cbXDl-a57_NXsi1fJoZ5aCQSDtru5IZ24Il1EDXvPpZXVWExdn71sOjBeY4JOJSTjrlGaPyTE5XpsdMjK_0THicUCv7Cm4ZNL11aBFhd_hd_oXGXLyO2Mr_b7guXEMt53CaA3TNgxY"/>
+</div>
+</div>
+<!-- Abstract organic shape background decoration -->
+<div class="absolute -bottom-10 -right-10 w-64 h-64 bg-tertiary-container/30 rounded-full blur-3xl -z-0"></div>
+</div>
+</section>
+<!-- Category Section (Round Icons) -->
+<section class="max-w-7xl mx-auto px-6 mb-24">
+<div class="flex flex-wrap justify-center gap-8 md:gap-16">
+<!-- Category Item -->
+<div class="group flex flex-col items-center gap-4 cursor-pointer">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-primary-container transition-all duration-300">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="apparel">apparel</span>
+</div>
+<span class="font-headline font-bold text-sm tracking-wide text-on-surface">T-shirts</span>
+</div>
+<!-- Category Item -->
+<div class="group flex flex-col items-center gap-4 cursor-pointer">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-secondary-container transition-all duration-300">
+<span class="material-symbols-outlined text-4xl text-secondary" data-icon="styler">styler</span>
+</div>
+<span class="font-headline font-bold text-sm tracking-wide text-on-surface">Dresses</span>
+</div>
+<!-- Category Item -->
+<div class="group flex flex-col items-center gap-4 cursor-pointer">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-tertiary-container transition-all duration-300">
+<span class="material-symbols-outlined text-4xl text-tertiary" data-icon="checkroom">checkroom</span>
+</div>
+<span class="font-headline font-bold text-sm tracking-wide text-on-surface">Pants</span>
+</div>
+<!-- Category Item -->
+<div class="group flex flex-col items-center gap-4 cursor-pointer">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-primary-fixed-dim transition-all duration-300">
+<span class="material-symbols-outlined text-4xl text-on-primary-fixed" data-icon="category">category</span>
+</div>
+<span class="font-headline font-bold text-sm tracking-wide text-on-surface">Sets</span>
+</div>
+</div>
+</section>
+<!-- New Arrivals (Organic Asymmetry) -->
+<section class="bg-surface-container-low py-24 rounded-[3rem]">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-headline text-4xl font-extrabold text-on-surface mb-2">The Fresh Batch</h2>
+<p class="text-on-surface-variant font-medium">Just landed in the playroom</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 hover:translate-x-1 transition-transform">
+                        Explore All <span class="material-symbols-outlined" data-icon="trending_flat">trending_flat</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Product Card 1 (Offset Higher) -->
+<div class="group relative md:-mt-8">
+<div class="aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-lowest mb-6">
+<img alt="Mint Linen Set" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A mint green linen shirt and shorts set for kids" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADC0OGglbIR4V3si3zFaWC_8R-Du7YFg_BPljFUZzyWxaYqMIAHv7n9o-3SRqH_RyTP0YIG0QQDM2HSBrG3c1UisBr6mujZpbpm3C7OOTV_qacVNGwcqq19ijLL2t34S3d8wfU37coZG02DjZIgpeGK4lHH8pEfEqaaTtSuZ6q0aX14j9Qvu2leJObkA6b1do5fhgSIDmGJHnWDGVruGraTh_ZE1tQEAqhcgtE7_CEvAzvhRSHwZt8XoooCE1gXi-7RYPGYH4wUJoe"/>
+</div>
+<div class="px-2">
+<span class="text-xs font-bold text-tertiary font-label uppercase tracking-tighter mb-1 block">Handmade</span>
+<h3 class="font-headline text-lg font-bold mb-1">Mint Linen Play-set</h3>
+<p class="text-on-surface-variant text-sm font-medium">$42.00</p>
+</div>
+</div>
+<!-- Product Card 2 (Standard) -->
+<div class="group relative">
+<div class="aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-lowest mb-6">
+<img alt="Organic Cotton Romper" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="An organic cotton baby romper with floral pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgaYxxBqNlCSZsjz502zG8VeSNkLoFyN8Zf4Ft27ARTogwG0A1xt3G9ZwdQCAGcNSVKAVYwQQkMsBA7JfgOk2iuy30BJMLC0QEgJI0IzoQMKxvRThbct-dbs0-mj4L0xkaaU4UxZq2xXhgdA2eYbGLCj0HvX2mQWa01KsXlYE3X1R_HxluVftDcx-7SWhXelxRN6tn8UqyXEgpEcNDMNW3D7bUrQMw9xfs7KHYBBzS9DwdVMRwazs8uKckddExaj3aFH1t_-Zj2pLY"/>
+</div>
+<div class="px-2">
+<span class="text-xs font-bold text-secondary font-label uppercase tracking-tighter mb-1 block">Best Seller</span>
+<h3 class="font-headline text-lg font-bold mb-1">Floral Organic Romper</h3>
+<p class="text-on-surface-variant text-sm font-medium">$38.00</p>
+</div>
+</div>
+<!-- Product Card 3 (Offset Lower) -->
+<div class="group relative md:mt-8">
+<div class="aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-lowest mb-6">
+<img alt="Sunlit Straw Hat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A child straw hat with a blue ribbon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlH6KMO6AQFWOxHRFf7ZRj_DJXRXrpP2-GZaIJ0eiXR4skN0zslmipw8ooxjqwrsZhpa7jPWVsjZ7HmcHK3_dl2COj_LkGHTNZTp4Jei2fIYIt4kTs5q84TYNiAZqHtHV886c1XH5FqH1-NDuymIHwy_3Rd7ak5dBg4WKMHILkS3FpVY4hmc3LEdzvtoKwj5fH102-ynSzt0buRb68qUZtHLp2fNmv9lia3RbJzGs4D_MGmgvDUDqnTNYGydy1yaywPcoqrUq3EBG4"/>
+</div>
+<div class="px-2">
+<span class="text-xs font-bold text-primary font-label uppercase tracking-tighter mb-1 block">Eco-Friendly</span>
+<h3 class="font-headline text-lg font-bold mb-1">Sunlit Straw Fedora</h3>
+<p class="text-on-surface-variant text-sm font-medium">$24.00</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Best Sellers (Bento-ish Grid) -->
+<section class="max-w-7xl mx-auto px-6 py-24">
+<h2 class="font-headline text-4xl font-extrabold text-on-surface text-center mb-16">Parent Favorites</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Main Feature -->
+<div class="md:col-span-2 md:row-span-2 relative rounded-lg overflow-hidden group">
+<img alt="Denim Overalls" class="w-full h-full object-cover" data-alt="Classic denim overalls on a white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCpziAKALNYDE4lZRd2BKxeKGcI9kHcmC_YLuUwxA9CGL1ogG3zkStqZPszhv77ahlG8czpxCs6kU7XylmNV2FtF1zRah36HSi1CkLx91rZG69Y8xMsxJJqZSs_4o82hrxHQ_SzxvJTbqmsDDg_1aLnb_wO53fiUHjkKFhYOjsuo51MWpRNk6sa1pqwytfOPK4zTy4hmuNUz7J3wi6rpfUEX1Y3pA_tr3YPhKNtMQwz-SiNk8tv9OGM8CfA08ifAMVnVNiSkrh7YxN"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-10">
+<h4 class="text-white font-headline text-3xl font-bold mb-2">Heritage Denim Overalls</h4>
+<p class="text-white/80 mb-6 max-w-xs">The ultimate playground-proof staple. Built to last generations.</p>
+<button class="bg-surface text-on-surface w-fit px-6 py-2 rounded-full font-bold text-sm shadow-xl hover:bg-primary hover:text-white transition-colors">Buy Now</button>
+</div>
+</div>
+<!-- Secondary Item -->
+<div class="bg-secondary-container/20 rounded-lg p-8 flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-secondary text-3xl mb-4" data-icon="eco" style="font-variation-settings: 'FILL' 1;">eco</span>
+<h4 class="font-headline text-xl font-bold text-on-secondary-container">Organic Tees</h4>
+<p class="text-sm text-on-secondary-container/70 mt-2">Pack of 3 essentials.</p>
+</div>
+<p class="font-headline font-bold text-on-secondary-container mt-4">$29.00</p>
+</div>
+<!-- Tertiary Item -->
+<div class="bg-tertiary-container/20 rounded-lg p-8 flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-tertiary text-3xl mb-4" data-icon="footprint" style="font-variation-settings: 'FILL' 1;">footprint</span>
+<h4 class="font-headline text-xl font-bold text-on-tertiary-container">Soft-Step Booties</h4>
+<p class="text-sm text-on-tertiary-container/70 mt-2">Leather comfort for first steps.</p>
+</div>
+<p class="font-headline font-bold text-on-tertiary-container mt-4">$45.00</p>
+</div>
+<!-- Small Promotion -->
+<div class="md:col-span-2 bg-primary-fixed-dim/30 rounded-lg p-8 flex items-center justify-between">
+<div class="max-w-[60%]">
+<h4 class="font-headline text-2xl font-bold text-on-primary-fixed">Join the Kidz Club</h4>
+<p class="text-on-primary-fixed/80 text-sm mt-2">Get 15% off your first order and exclusive access to drops.</p>
+</div>
+<div class="relative">
+<div class="w-16 h-16 rounded-full primary-gradient flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / Community Section -->
+<section class="max-w-5xl mx-auto px-6 py-20 text-center">
+<div class="bg-surface-container-high rounded-xl p-16 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-32 h-32 bg-primary-container/40 rounded-full -translate-x-16 -translate-y-16 blur-2xl"></div>
+<div class="absolute bottom-0 right-0 w-48 h-48 bg-secondary-container/30 rounded-full translate-x-20 translate-y-20 blur-2xl"></div>
+<h2 class="font-headline text-4xl font-extrabold mb-4 text-on-surface relative z-10">Capture the Magic</h2>
+<p class="text-on-surface-variant max-w-lg mx-auto mb-10 leading-relaxed relative z-10">
+                    Tag us @irsyamkidz for a chance to be featured in our monthly digital lookbook.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+<input class="px-8 py-4 rounded-xl border-none bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 w-full sm:w-80 font-body outline-none" placeholder="Your playground email..." type="email"/>
+<button class="primary-gradient text-on-primary px-8 py-4 rounded-xl font-headline font-bold">Subscribe</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full bg-slate-50 dark:bg-slate-950 rounded-t-[3rem] mt-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto font-be-vietnam-pro text-base leading-relaxed">
+<div class="flex flex-col gap-6">
+<div class="text-xl font-bold text-emerald-800 dark:text-emerald-300">Irsyam Kidz Wear</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm">
+                    Designing modern childhoods with ethically sourced materials and timeless style.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-emerald-700 font-bold uppercase text-xs tracking-widest">Shop</h5>
+<a class="text-slate-500 hover:text-emerald-500 transition-colors" href="#">Boys</a>
+<a class="text-slate-500 hover:text-emerald-500 transition-colors" href="#">Girls</a>
+<a class="text-slate-500 hover:text-emerald-500 transition-colors" href="#">New Arrivals</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-emerald-700 font-bold uppercase text-xs tracking-widest">Help</h5>
+<a class="text-slate-500 hover:text-emerald-500 hover:underline underline-offset-4" href="#">FAQ</a>
+<a class="text-slate-500 hover:text-emerald-500 hover:underline underline-offset-4" href="#">Shipping</a>
+<a class="text-slate-500 hover:text-emerald-500 hover:underline underline-offset-4" href="#">Contact</a>
+<a class="text-slate-500 hover:text-emerald-500 hover:underline underline-offset-4" href="#">Privacy Policy</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-emerald-700 font-bold uppercase text-xs tracking-widest">Connect</h5>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-400 hover:text-emerald-600 cursor-pointer" data-icon="public">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-emerald-600 cursor-pointer" data-icon="alternate_email">alternate_email</span>
+</div>
+<p class="text-xs text-slate-400 mt-4 leading-tight">
+                    © 2024 Irsyam Kidz Wear. The Modern Playroom.
+                </p>
+</div>
+</div>
+</footer>
+</body></html>
