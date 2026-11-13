@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
+import { useWishlistStore } from '@/store/wishlistStore';
 
 function NavbarContent() {
   const pathname = usePathname();
@@ -11,6 +12,7 @@ function NavbarContent() {
   const currentCategory = searchParams?.get('kategori');
 
   const totalItems = useCartStore((state) => state.getTotalItems());
+  const favoriteCount = useWishlistStore((state) => state.favoriteIds.length);
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -156,6 +158,13 @@ function NavbarContent() {
                 >
                   <span>Lihat semua koleksi</span>
                   <span className="material-symbols-outlined text-base text-primary">arrow_forward</span>
+                </Link>
+                <Link
+                  href="/catalog?favorit=1"
+                  className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-surface-container-low text-on-surface transition-colors duration-150"
+                >
+                  <span>Favorit tersimpan ({mounted ? favoriteCount : 0})</span>
+                  <span className="material-symbols-outlined text-base text-rose-500">favorite</span>
                 </Link>
                 <Link
                   href="/cart"

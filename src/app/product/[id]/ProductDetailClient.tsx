@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Product } from '@/data/products';
 import { useCartStore } from '@/store/cartStore';
+import { useWishlistStore } from '@/store/wishlistStore';
 
 interface Props {
   product: Product;
@@ -11,12 +12,29 @@ interface Props {
 }
 
 export default function ProductDetailClient({ product, relatedProducts }: Props) {
+  const [mounted, setMounted] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name || '');
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] || '');
   const [isAdded, setIsAdded] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+
+  const favoriteIds = useWishlistStore((state) => state.favoriteIds);
+  const toggleFavorite = useWishlistStore((state) => state.toggleFavorite);
+  const isFavorite = mounted && favoriteIds.includes(product.id);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!showSizeGuide) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowSizeGuide(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showSizeGuide]);
 
   const activeColorObj =
     product.colors.find((c) => c.name === selectedColor) || product.colors[0];
@@ -90,8 +108,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
               <div className="absolute top-6 right-6">
                 <button
                   type="button"
-                  onClick={() => setIsFavorite(!isFavorite)}
-                  aria-label="Simpan ke favorit"
+                  onClick={() => toggleFavorite(product.id)}
+                  aria-label={isFavorite ? 'Hapus dari favorit' : 'Simpan ke favorit'}
                   className={`w-11 h-11 rounded-full backdrop-blur-md flex items-center justify-center shadow-sm transition-[background-color,color,transform] duration-200 ease-out cursor-pointer ${
                     isFavorite ? 'bg-rose-50 text-rose-500 scale-105' : 'bg-white/85 text-primary hover:bg-white'
                   }`}
@@ -366,14 +384,14 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
       {/* Interactive Size Guide Modal */}
       {showSizeGuide && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-up"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
           onClick={() => setShowSizeGuide(false)}
           role="dialog"
           aria-modal="true"
           aria-labelledby="size-guide-title"
         >
           <div
-            className="bg-surface-container-lowest rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-outline-variant/20"
+            className="bg-surface-container-lowest rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-outline-variant/20 animate-fade-up"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4 mb-5">

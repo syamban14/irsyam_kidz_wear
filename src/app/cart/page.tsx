@@ -10,10 +10,21 @@ import { useCartStore } from '@/store/cartStore';
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
   const [promoInput, setPromoInput] = useState('');
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
+  const [customerNotes, setCustomerNotes] = useState('');
+  const [shippingMethod, setShippingMethod] = useState<'reguler' | 'instan'>('reguler');
+  const [paymentMethod, setPaymentMethod] = useState<'qris' | 'va'>('qris');
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [paymentSuccessData, setPaymentSuccessData] = useState<{
     token: string;
     total: number;
+    customerName: string;
+    paymentMethod: string;
+    shippingMethod: string;
   } | null>(null);
 
   const {
@@ -22,6 +33,7 @@ export default function CartPage() {
     removeItem,
     updateQuantity,
     applyPromoCode,
+    clearPromo,
     promoCode,
     discount,
     promoError,
@@ -34,6 +46,17 @@ export default function CartPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!showCheckoutModal && !paymentSuccessData) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (showCheckoutModal && !isCheckingOut) setShowCheckoutModal(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showCheckoutModal, paymentSuccessData, isCheckingOut]);
 
   const subtotal = mounted ? getSubtotal() : 0;
   const shippingFee = mounted ? getShippingFee() : 0;
@@ -49,7 +72,24 @@ export default function CartPage() {
     applyPromoCode(promoInput);
   };
 
-  const handleProceedToCheckout = async () => {
+  const handleProceedToCheckout = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCheckoutError(null);
+
+    if (customerName.trim().length < 2) {
+      setCheckoutError('Mohon masukkan nama lengkap penerima.');
+      return;
+    }
+    const cleanPhone = customerPhone.replace(/[^0-9]/g, '');
+    if (cleanPhone.length < 9) {
+      setCheckoutError('Mohon masukkan nomor WhatsApp aktif yang valid.');
+      return;
+    }
+    if (customerAddress.trim().length < 10) {
+      setCheckoutError('Mohon lengkapi alamat pengiriman (jalan, kecamatan, kota).');
+      return;
+    }
+
     setIsCheckingOut(true);
     try {
       const res = await fetch('/api/payment', {
@@ -65,18 +105,32 @@ export default function CartPage() {
             color: i.color,
           })),
           amount: finalTotal,
+          customer: {
+            name: customerName.trim(),
+            phone: customerPhone.trim(),
+            address: customerAddress.trim(),
+            notes: customerNotes.trim(),
+          },
+          shippingMethod,
+          paymentMethod,
         }),
       });
 
       const data = await res.json();
       if (data.success) {
+        setShowCheckoutModal(false);
         setPaymentSuccessData({
           token: data.token,
           total: finalTotal,
+          customerName: data.customerName,
+          paymentMethod: data.paymentMethod,
+          shippingMethod: data.shippingMethod,
         });
+      } else {
+        setCheckoutError(data.message || 'Gagal memproses pesanan.');
       }
-    } catch (err) {
-      console.error('Checkout error:', err);
+    } catch {
+      setCheckoutError('Terjadi kendala koneksi. Silakan coba lagi.');
     } finally {
       setIsCheckingOut(false);
     }
@@ -103,8 +157,8 @@ export default function CartPage() {
     <>
       <Navbar />
 
-      <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen animate-fade-up">
-        <header className="mb-10">
+      <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen">
+        <header className="mb-10 animate-fade-up">
           <h1 className="font-headline text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight mb-2">
             Keranjang Belanja
           </h1>
@@ -252,8 +306,18 @@ export default function CartPage() {
                   </div>
 
                   {discount > 0 && (
-                    <div className="flex justify-between text-emerald-700 font-bold">
-                      <span>Voucher ({promoCode})</span>
+                    <div className="flex justify-between items-center text-emerald-700 font-bold">
+                      <span className="inline-flex items-center gap-1.5">
+                        Voucher ({promoCode})
+                        <button
+                          type="button"
+                          onClick={clearPromo}
+                          aria-label="Hapus voucher"
+                          className="text-xs text-outline-variant hover:text-error underline font-normal cursor-pointer"
+                        >
+                          Hapus
+                        </button>
+                      </span>
                       <span className="tabular-nums">-Rp{discount.toLocaleString('id-ID')}</span>
                     </div>
                   )}
@@ -299,14 +363,15 @@ export default function CartPage() {
 
                 {/* Checkout Button */}
                 <button
-                  onClick={handleProceedToCheckout}
-                  disabled={isCheckingOut}
-                  className="w-full primary-gradient text-on-primary py-4 rounded-full font-bold text-base shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-[transform,box-shadow] duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                  type="button"
+                  onClick={() => {
+                    setCheckoutError(null);
+                    setShowCheckoutModal(true);
+                  }}
+                  className="w-full primary-gradient text-on-primary py-4 rounded-full font-bold text-base shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-[transform,box-shadow] duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>{isCheckingOut ? 'Menyiapkan Pembayaran...' : 'Lanjut ke Pembayaran'}</span>
-                  <span className="material-symbols-outlined text-lg">
-                    {isCheckingOut ? 'hourglass_top' : 'lock'}
-                  </span>
+                  <span>Lanjut ke Pembayaran</span>
+                  <span className="material-symbols-outlined text-lg">arrow_forward</span>
                 </button>
 
                 {/* Trust Signals */}
@@ -415,11 +480,184 @@ export default function CartPage() {
             </div>
           </section>
         )}
+      </main>
 
-        {/* Payment Confirmation Modal */}
-        {paymentSuccessData && (
-          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-surface-container-lowest max-w-md w-full rounded-3xl p-8 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+      {/* Checkout Shipping & Payment Form Modal */}
+      {showCheckoutModal && (
+        <div
+          className="fixed inset-0 z-50 bg-black/45 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => !isCheckingOut && setShowCheckoutModal(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="checkout-modal-title"
+        >
+          <div
+            className="bg-surface-container-lowest max-w-lg w-full max-h-[92dvh] overflow-y-auto rounded-3xl p-6 shadow-2xl border border-outline-variant/20 animate-fade-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h2 id="checkout-modal-title" className="font-headline text-xl font-bold text-on-surface">
+                    Data Pengiriman &amp; Pembayaran
+                  </h2>
+                  <p className="text-xs text-on-surface-variant font-body mt-0.5">
+                    Lengkapi tujuan pengiriman untuk pesanan Bunda.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  disabled={isCheckingOut}
+                  onClick={() => setShowCheckoutModal(false)}
+                  className="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant cursor-pointer"
+                  aria-label="Tutup form checkout"
+                >
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+              </div>
+
+              <form onSubmit={handleProceedToCheckout} className="space-y-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-on-surface mb-1 font-headline">
+                      Nama lengkap penerima
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      placeholder="Contoh: Bunda Rina"
+                      className="w-full bg-surface-container-low rounded-2xl px-4 py-2.5 text-sm font-body text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-on-surface mb-1 font-headline">
+                      Nomor WhatsApp aktif
+                    </label>
+                    <input
+                      required
+                      type="tel"
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value)}
+                      placeholder="081234567890"
+                      className="w-full bg-surface-container-low rounded-2xl px-4 py-2.5 text-sm font-body text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 outline-none tabular-nums"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-on-surface mb-1 font-headline">
+                    Alamat lengkap pengiriman
+                  </label>
+                  <textarea
+                    required
+                    rows={2}
+                    value={customerAddress}
+                    onChange={(e) => setCustomerAddress(e.target.value)}
+                    placeholder="Nama jalan, nomor rumah, kelurahan, kecamatan, kota & kode pos"
+                    className="w-full bg-surface-container-low rounded-2xl px-4 py-2.5 text-sm font-body text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 outline-none resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-on-surface mb-1 font-headline">
+                    Catatan kurir / kartu kado (opsional)
+                  </label>
+                  <input
+                    type="text"
+                    value={customerNotes}
+                    onChange={(e) => setCustomerNotes(e.target.value)}
+                    placeholder="Contoh: Tolong sertakan kartu ucapan"
+                    className="w-full bg-surface-container-low rounded-2xl px-4 py-2.5 text-sm font-body text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <div>
+                    <span className="block text-xs font-bold text-on-surface mb-1.5 font-headline">
+                      Layanan pengiriman
+                    </span>
+                    <div className="inline-flex p-1 bg-surface-container-high rounded-full w-full gap-1">
+                      {[
+                        { id: 'reguler', label: 'Reguler' },
+                        { id: 'instan', label: 'Instan' },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => setShippingMethod(opt.id as 'reguler' | 'instan')}
+                          className={`flex-1 py-2 rounded-full text-xs font-semibold transition-[background-color,color] duration-200 cursor-pointer ${
+                            shippingMethod === opt.id
+                              ? 'bg-primary text-on-primary font-bold shadow-sm'
+                              : 'text-on-surface-variant hover:text-on-surface'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="block text-xs font-bold text-on-surface mb-1.5 font-headline">
+                      Metode pembayaran
+                    </span>
+                    <div className="inline-flex p-1 bg-surface-container-high rounded-full w-full gap-1">
+                      {[
+                        { id: 'qris', label: 'QRIS' },
+                        { id: 'va', label: 'Transfer VA' },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => setPaymentMethod(opt.id as 'qris' | 'va')}
+                          className={`flex-1 py-2 rounded-full text-xs font-semibold transition-[background-color,color] duration-200 cursor-pointer ${
+                            paymentMethod === opt.id
+                              ? 'bg-primary text-on-primary font-bold shadow-sm'
+                              : 'text-on-surface-variant hover:text-on-surface'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {checkoutError && (
+                  <p className="text-xs font-semibold text-error bg-error/10 px-4 py-2.5 rounded-2xl">
+                    {checkoutError}
+                  </p>
+                )}
+
+                <div className="pt-3 border-t border-outline-variant/15 flex items-center justify-between">
+                  <div>
+                    <span className="block text-xs text-on-surface-variant">Total dibayar</span>
+                    <span className="font-headline text-xl font-extrabold text-primary tabular-nums">
+                      Rp{finalTotal.toLocaleString('id-ID')}
+                    </span>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isCheckingOut}
+                    className="primary-gradient text-on-primary px-7 py-3.5 rounded-full font-headline font-bold text-sm shadow-md hover:shadow-lg transition-[transform,box-shadow] duration-200 inline-flex items-center gap-2 cursor-pointer disabled:opacity-60"
+                  >
+                    <span>{isCheckingOut ? 'Memproses...' : 'Buat Pesanan'}</span>
+                    <span className="material-symbols-outlined text-base">
+                      {isCheckingOut ? 'hourglass_top' : 'lock'}
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+      {/* Payment Confirmation Modal */}
+      {paymentSuccessData && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-surface-container-lowest max-w-md w-full rounded-3xl p-8 shadow-2xl relative animate-fade-up">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-6">
                 <span className="material-symbols-outlined text-3xl">check_circle</span>
               </div>
@@ -428,38 +666,42 @@ export default function CartPage() {
                 Pesanan Berhasil Dibuat!
               </h2>
               <p className="text-sm text-on-surface-variant text-center mb-6">
-                Kode Transaksi: <strong className="font-mono text-on-surface">{paymentSuccessData.token}</strong>
+                Kode Pesanan: <strong className="font-mono text-on-surface">{paymentSuccessData.token}</strong>
               </p>
 
-              <div className="bg-surface-container-low p-5 rounded-2xl mb-6 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-on-surface-variant">Metode</span>
-                  <span className="font-semibold text-on-surface">QRIS / Virtual Account</span>
+              <div className="bg-surface-container-low p-5 rounded-2xl mb-6 space-y-2.5 text-sm">
+                <div className="flex justify-between gap-4">
+                  <span className="text-on-surface-variant">Penerima</span>
+                  <span className="font-semibold text-on-surface text-right">{paymentSuccessData.customerName}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4">
+                  <span className="text-on-surface-variant">Pengiriman</span>
+                  <span className="font-semibold text-on-surface text-right">{paymentSuccessData.shippingMethod}</span>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <span className="text-on-surface-variant">Metode Bayar</span>
+                  <span className="font-semibold text-on-surface text-right">{paymentSuccessData.paymentMethod}</span>
+                </div>
+                <div className="flex justify-between gap-4 pt-2 border-t border-outline-variant/15">
                   <span className="text-on-surface-variant">Total Tagihan</span>
                   <span className="font-bold text-primary tabular-nums">
                     Rp{paymentSuccessData.total.toLocaleString('id-ID')}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-on-surface-variant">Status</span>
-                  <span className="text-emerald-700 font-bold">Menunggu Pembayaran</span>
-                </div>
               </div>
 
               <div className="space-y-3">
                 <button
+                  type="button"
                   onClick={handleFinishOrder}
-                  className="w-full primary-gradient text-on-primary py-3.5 rounded-full font-headline font-bold text-sm shadow-md"
+                  className="w-full primary-gradient text-on-primary py-3.5 rounded-full font-headline font-bold text-sm shadow-md cursor-pointer"
                 >
                   Selesai &amp; Bersihkan Keranjang
                 </button>
               </div>
             </div>
           </div>
-        )}
-      </main>
+      )}
 
       <Footer />
     </>

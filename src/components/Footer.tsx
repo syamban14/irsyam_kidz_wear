@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 type HelpTab = 'faq' | 'pengiriman' | 'kontak' | null;
@@ -22,6 +22,15 @@ const FAQ_ITEMS = [
 
 export default function Footer() {
   const [activeHelpTab, setActiveHelpTab] = useState<HelpTab>(null);
+
+  useEffect(() => {
+    if (!activeHelpTab) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveHelpTab(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeHelpTab]);
 
   return (
     <>
@@ -112,14 +121,14 @@ export default function Footer() {
 
       {activeHelpTab && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-up"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
           onClick={() => setActiveHelpTab(null)}
           role="dialog"
           aria-modal="true"
           aria-labelledby="footer-help-title"
         >
           <div
-            className="bg-surface-container-lowest rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-outline-variant/20"
+            className="bg-surface-container-lowest rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-outline-variant/20 animate-fade-up"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4 mb-5">
@@ -195,7 +204,7 @@ export default function Footer() {
                       Gratis Ongkir ke Seluruh Indonesia
                     </h4>
                     <p className="text-xs leading-relaxed">
-                      Nikmati pengiriman gratis otomatis untuk setiap transaksi minimal <strong className="text-on-surface tabular-nums">Rp250.000</strong>. Untuk pesanan di bawah nominal tersebut, tarif flat hanya <strong className="text-on-surface tabular-nums">Rp18.000</strong>.
+                      Nikmati pengiriman gratis otomatis untuk setiap transaksi minimal <strong className="text-on-surface tabular-nums">Rp250.000</strong>. Untuk pesanan di bawah nominal tersebut, tarif flat hanya <strong className="text-on-surface tabular-nums">Rp15.000</strong>.
                     </p>
                   </div>
                 </div>
