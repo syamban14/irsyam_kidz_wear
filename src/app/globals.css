@@ -57,14 +57,19 @@
   --font-body: var(--font-be-vietnam);
   --font-label: var(--font-plus-jakarta);
 
+  --font-size-title: 1.25rem;
+  --font-size-body: 1rem;
+  --font-size-caption: 0.875rem;
+
   --radius-lg: 2rem;
   --radius-xl: 3rem;
 }
 
 @layer utilities {
   .glass-nav {
-    background: rgba(245, 247, 245, 0.7);
+    background: rgba(245, 247, 245, 0.75);
     backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
   .primary-gradient {
     background: linear-gradient(135deg, #00694b 0%, #7eefc0 100%);
@@ -72,8 +77,20 @@
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 body {
   -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
