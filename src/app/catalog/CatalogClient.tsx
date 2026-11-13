@@ -47,11 +47,25 @@ export default function CatalogClient() {
         if (prod.category !== selectedCategory) return false;
       }
 
-      // Size filter
+      // Size filter (supports exact years like "2 Thn" and ranges like "2-3 Thn" / "S (2-3 Thn)")
       if (selectedSize !== 'semua') {
-        const hasSize = prod.sizes.some((s) =>
-          s.toLowerCase().includes(selectedSize.toLowerCase())
-        );
+        const targetAge = parseInt(selectedSize, 10);
+        const hasSize = prod.sizes.some((s) => {
+          if (Number.isNaN(targetAge)) {
+            return s.toLowerCase().includes(selectedSize.toLowerCase());
+          }
+          const rangeMatch = s.match(/(\d+)\s*-\s*(\d+)\s*Thn/i);
+          if (rangeMatch) {
+            const min = parseInt(rangeMatch[1], 10);
+            const max = parseInt(rangeMatch[2], 10);
+            return targetAge >= min && targetAge <= max;
+          }
+          const singleMatch = s.match(/(\d+)\s*Thn/i);
+          if (singleMatch) {
+            return parseInt(singleMatch[1], 10) === targetAge;
+          }
+          return false;
+        });
         if (!hasSize) return false;
       }
 
@@ -99,7 +113,13 @@ export default function CatalogClient() {
     }, 1500);
   };
 
-  const sizesList = ['2 Thn', '3 Thn', '4 Thn', '5 Thn', '6 Thn'];
+  const sizesList = [
+    { value: '2', label: '2th' },
+    { value: '3', label: '3th' },
+    { value: '4', label: '4th' },
+    { value: '5', label: '5th' },
+    { value: '6', label: '6th' },
+  ];
   const colorsList = [
     { name: 'Hijau', hex: '#10B981' },
     { name: 'Kuning', hex: '#FBBF24' },
@@ -111,7 +131,7 @@ export default function CatalogClient() {
   return (
     <div className="flex flex-col md:flex-row gap-12">
       {/* Sidebar Filter */}
-      <aside className="w-full md:w-64 flex-shrink-0 space-y-10">
+      <aside className="w-full md:w-72 flex-shrink-0 space-y-10">
         {/* Active Category Filter Tabs */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
@@ -164,20 +184,20 @@ export default function CatalogClient() {
               </button>
             )}
           </div>
-          <div className="inline-flex p-1 bg-surface-container-high rounded-full w-full justify-between">
+          <div className="inline-flex p-1 bg-surface-container-high rounded-full w-full justify-between gap-1">
             {sizesList.map((sz) => {
-              const active = selectedSize === sz;
+              const active = selectedSize === sz.value;
               return (
                 <button
-                  key={sz}
-                  onClick={() => updateFilter('ukuran', active ? 'semua' : sz)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-[background-color,color] duration-200 ease-out ${
+                  key={sz.value}
+                  onClick={() => updateFilter('ukuran', active ? 'semua' : sz.value)}
+                  className={`flex-1 px-2.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-[background-color,color] duration-200 ease-out cursor-pointer ${
                     active
                       ? 'bg-primary text-on-primary font-bold shadow-sm'
                       : 'text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
-                  {sz}
+                  {sz.label}
                 </button>
               );
             })}
@@ -300,10 +320,15 @@ export default function CatalogClient() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8">
-            {filteredProducts.map((prod) => {
+            {filteredProducts.map((prod, idx) => {
               const isJustAdded = addedProductId === prod.id;
               return (
-                <Link key={prod.id} href={`/product/${prod.id}`} className="group cursor-pointer block">
+                <Link
+                  key={prod.id}
+                  href={`/product/${prod.id}`}
+                  style={{ animationDelay: `${Math.min(idx, 6) * 55}ms` }}
+                  className="group cursor-pointer block animate-fade-up"
+                >
                   <div className="relative bg-surface-container-lowest rounded-2xl overflow-hidden mb-4 aspect-[4/5] shadow-sm group-hover:shadow-md transition-shadow duration-300 ease-out">
                     <img
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"

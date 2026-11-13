@@ -1,200 +1,313 @@
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ScrollReveal from '@/components/ScrollReveal';
+import {
+  HeroInteractiveStage,
+  CommunityVoucherCard,
+  NewsletterForm,
+} from '@/components/HomeInteractive';
 import { PRODUCTS } from '@/data/products';
 
 export default function Home() {
   const newArrivals = PRODUCTS.filter((p) => p.isNew).slice(0, 3);
-  const favoriteItem = PRODUCTS.find((p) => p.isFavorite && p.id === '4') || PRODUCTS[3];
+  const favoriteItem = PRODUCTS.find((p) => p.id === '4') || PRODUCTS[3];
   const secondFavorite = PRODUCTS.find((p) => p.id === '5') || PRODUCTS[4];
   const thirdFavorite = PRODUCTS.find((p) => p.id === '8') || PRODUCTS[7];
+
+  const categories = [
+    {
+      title: 'Gaun manis',
+      subtitle: 'Katun tropis ringan',
+      href: '/catalog?kategori=perempuan',
+      image: PRODUCTS.find((p) => p.id === '1')?.images[0] || '/images/prod-gaun-bunga.jpg',
+    },
+    {
+      title: 'Kaos & kemeja',
+      subtitle: 'Linen & rajut adem',
+      href: '/catalog?kategori=laki-laki',
+      image: PRODUCTS.find((p) => p.id === '3')?.images[0] || '/images/prod-gaun-bunga.jpg',
+    },
+    {
+      title: 'Celana & overal',
+      subtitle: 'Lentur bebas bergerak',
+      href: '/catalog?kategori=laki-laki',
+      image: PRODUCTS.find((p) => p.id === '4')?.images[0] || '/images/prod-romper-bunga.jpg',
+    },
+    {
+      title: 'Perlengkapan bayi',
+      subtitle: 'Ekstra lembut & aman',
+      href: '/catalog?kategori=bayi',
+      image: PRODUCTS.find((p) => p.id === '2')?.images[0] || '/images/prod-romper-bunga.jpg',
+    },
+  ];
 
   return (
     <>
       <Navbar />
 
       <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="relative w-full pt-36 md:pt-44 pb-20 px-6 overflow-hidden">
-          <div className="max-w-5xl mx-auto text-center mb-10">
-            <h1 className="font-headline text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-on-surface tracking-tight leading-[0.95] mb-6">
-              Koleksi Ceria Musim Panas
-            </h1>
-            <p className="text-base md:text-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed font-body mb-8">
-              Pakaian anak berbahan katun organik sejuk untuk keceriaan bermain dan eksplorasi si buah hati setiap hari.
-            </p>
-            <div className="flex justify-center">
-              <Link
-                href="/catalog"
-                className="primary-gradient text-on-primary px-10 py-4 rounded-full font-headline font-bold text-base inline-flex items-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-[transform,box-shadow] duration-200 ease-out"
-              >
-                Jelajahi Koleksi
-                <span className="material-symbols-outlined text-xl" data-icon="arrow_forward">arrow_forward</span>
-              </Link>
-            </div>
-          </div>
+        {/* Full-Bleed Atmospheric Hero */}
+        <section className="relative w-full min-h-[92dvh] flex items-end pb-12 md:pb-16 pt-28 overflow-hidden">
+          <img
+            src="/images/hero-editorial.jpg"
+            alt="Koleksi Pakaian Anak Organik Irsyam Kidz Wear"
+            className="absolute inset-0 w-full h-full object-cover object-center md:object-[68%_center]"
+          />
+          {/* Sunlit Editorial Gradient Overlay for high text contrast */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-b from-[#f5f7f5]/85 via-[#f5f7f5]/60 to-[#f5f7f5]/95 md:bg-gradient-to-r md:from-[#f5f7f5]/95 md:via-[#f5f7f5]/72 md:to-transparent"
+          />
+          {/* Subtle top edge wash so transparent navbar links/icons stay crisp on bright & shadowed areas */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#f5f7f5]/85 via-[#f5f7f5]/45 to-transparent pointer-events-none"
+          />
 
-          {/* Full-width showcase stage */}
-          <div className="max-w-7xl mx-auto">
-            <div className="relative h-[440px] md:h-[560px] rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_rgba(44,47,46,0.06)] bg-primary-container/20">
-              <img
-                alt="Anak-anak ceria bermain di luar ruangan mengenakan koleksi musim panas"
-                className="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8WITzGtyXVNSZXnbWOaUeZug2PRQ-jZ9hj2dibV8WuPsdHk5t99fPj1vWVp200llXuiO6SsftWDShBsbiSdVmNSTj1thpkRW7zegLnmUOj_Tmb2RcItnBWwGEpC8LXJlUq_cbXDl-a57_NXsi1fJoZ5aCQSDtru5IZ24Il1EDXvPpZXVWExdn71sOjBeY4JOJSTjrlGaPyTE5XpsdMjK_0THicUCv7Cm4ZNL11aBFhd_hd_oXGXLyO2Mr_b7guXEMt53CaA3TNgxY"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
-            </div>
-          </div>
-        </section>
-
-        {/* Category Section */}
-        <section className="max-w-7xl mx-auto px-6 mb-24">
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-            <Link href="/catalog?kategori=laki-laki" className="group flex flex-col items-center gap-3">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-primary-container transition-colors duration-200 ease-out">
-                <span className="material-symbols-outlined text-3xl md:text-4xl text-primary" data-icon="apparel">apparel</span>
-              </div>
-              <span className="font-headline font-semibold text-sm text-on-surface">Kaos anak</span>
-            </Link>
-            <Link href="/catalog?kategori=perempuan" className="group flex flex-col items-center gap-3">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-secondary-container transition-colors duration-200 ease-out">
-                <span className="material-symbols-outlined text-3xl md:text-4xl text-secondary" data-icon="styler">styler</span>
-              </div>
-              <span className="font-headline font-semibold text-sm text-on-surface">Gaun manis</span>
-            </Link>
-            <Link href="/catalog?kategori=laki-laki" className="group flex flex-col items-center gap-3">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-tertiary-container transition-colors duration-200 ease-out">
-                <span className="material-symbols-outlined text-3xl md:text-4xl text-tertiary" data-icon="checkroom">checkroom</span>
-              </div>
-              <span className="font-headline font-semibold text-sm text-on-surface">Celana santai</span>
-            </Link>
-            <Link href="/catalog?kategori=bayi" className="group flex flex-col items-center gap-3">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-surface-container-low flex items-center justify-center group-hover:bg-primary-fixed-dim transition-colors duration-200 ease-out">
-                <span className="material-symbols-outlined text-3xl md:text-4xl text-on-primary-fixed" data-icon="category">category</span>
-              </div>
-              <span className="font-headline font-semibold text-sm text-on-surface">Setelan bermain</span>
-            </Link>
-          </div>
-        </section>
-
-        {/* New Arrivals - Dynamic from PRODUCTS */}
-        <section className="bg-surface-container-low py-24 rounded-[3rem]">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex justify-between items-end mb-16">
-              <div>
-                <h2 className="font-headline text-3xl md:text-4xl font-extrabold text-on-surface mb-2">Koleksi Terbaru</h2>
-                <p className="text-on-surface-variant text-sm md:text-base font-medium">Koleksi segar siap menemani hari bermain si kecil</p>
-              </div>
-              <Link href="/catalog?kategori=terbaru" className="text-primary font-bold text-sm md:text-base flex items-center gap-2 hover:translate-x-1 transition-transform duration-200 ease-out">
-                Lihat semua <span className="material-symbols-outlined" data-icon="trending_flat">trending_flat</span>
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {newArrivals.map((prod, idx) => (
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div className="max-w-xl">
+              <h1 className="font-headline text-5xl sm:text-6xl md:text-7xl font-black text-on-surface tracking-tight leading-[0.98] mb-5 animate-fade-up">
+                Koleksi Ceria Musim Panas
+              </h1>
+              <p className="text-base md:text-lg text-on-surface-variant max-w-md leading-relaxed font-body mb-8 animate-fade-up-delay-1">
+                Pakaian anak berbahan katun organik sejuk untuk keceriaan bermain dan eksplorasi si buah hati setiap hari.
+              </p>
+              <div className="animate-fade-up-delay-1">
                 <Link
-                  key={prod.id}
-                  href={`/product/${prod.id}`}
-                  className={`group block ${idx === 1 ? 'md:-mt-6' : idx === 2 ? 'md:mt-6' : ''}`}
+                  href="/catalog"
+                  className="primary-gradient text-on-primary px-9 py-4 rounded-full font-headline font-bold text-base inline-flex items-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-[transform,box-shadow] duration-200 ease-out"
                 >
-                  <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-lowest mb-5 shadow-sm">
+                  <span>Jelajahi koleksi</span>
+                  <span className="material-symbols-outlined text-xl">arrow_forward</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="w-full lg:w-auto lg:min-w-[440px]">
+              <HeroInteractiveStage />
+            </div>
+          </div>
+        </section>
+
+        {/* Visual Editorial Categories */}
+        <section className="max-w-7xl mx-auto px-6 py-20">
+          <ScrollReveal className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+            <div>
+              <h2 className="font-headline text-3xl md:text-4xl font-bold text-on-surface tracking-tight">
+                Pilihan Kategori
+              </h2>
+              <p className="text-on-surface-variant font-body mt-1.5">
+                Temukan potongan paling pas untuk setiap aktivitas harian si kecil.
+              </p>
+            </div>
+            <Link
+              href="/catalog"
+              className="text-primary font-headline font-bold text-sm inline-flex items-center gap-1.5 hover:gap-2.5 transition-[gap] duration-200"
+            >
+              <span>Buka semua katalog</span>
+              <span className="material-symbols-outlined text-lg">arrow_forward</span>
+            </Link>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+            {categories.map((cat, idx) => (
+              <ScrollReveal key={cat.title} delayMs={idx * 70}>
+                <Link
+                  href={cat.href}
+                  className="group relative block aspect-[4/5] rounded-3xl overflow-hidden bg-surface-container-low shadow-[0_8px_24px_rgba(44,47,46,0.05)]"
+                >
+                  <img
+                    src={cat.image}
+                    alt={cat.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent"
+                  />
+                  <div className="absolute bottom-5 left-5 right-5 text-white">
+                    <h3 className="font-headline text-lg md:text-xl font-bold leading-snug">
+                      {cat.title}
+                    </h3>
+                    <p className="text-xs md:text-sm text-white/85 font-body mt-0.5">
+                      {cat.subtitle}
+                    </p>
+                  </div>
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
+        </section>
+
+        {/* Koleksi Terbaru — Asymmetric Organic Grid */}
+        <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
+          <ScrollReveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+            <div>
+              <h2 className="font-headline text-3xl md:text-4xl font-bold text-on-surface tracking-tight mb-2">
+                Koleksi Terbaru
+              </h2>
+              <p className="text-on-surface-variant font-body">
+                Potongan segar berbahan lembut untuk hari yang penuh petualangan.
+              </p>
+            </div>
+            <Link
+              href="/catalog?filter=terbaru"
+              className="text-primary font-headline font-bold inline-flex items-center gap-2 hover:gap-3 transition-[gap] duration-200 self-start sm:self-auto"
+            >
+              <span>Lihat semua</span>
+              <span className="material-symbols-outlined">arrow_right_alt</span>
+            </Link>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:pb-8">
+            {newArrivals.map((item, idx) => (
+              <ScrollReveal
+                key={item.id}
+                delayMs={idx * 90}
+                className={idx === 1 ? 'md:translate-y-6' : ''}
+              >
+                <Link href={`/product/${item.id}`} className="group block cursor-pointer">
+                  <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-surface-container-low mb-4 shadow-[0_8px_24px_rgba(44,47,46,0.04)]">
                     <img
-                      alt={prod.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      src={prod.images[0]}
+                      alt={item.name}
+                      src={item.images[0]}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                     />
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="font-headline text-lg font-bold text-on-surface group-hover:text-primary transition-colors duration-200 ease-out">
-                      {prod.name}
-                    </h3>
-                    <p className="text-sm text-on-surface-variant font-medium">
-                      {prod.category === 'perempuan' ? 'Pilihan favorit para bunda' : 'Bahan katun sejuk pilihan'}
-                    </p>
-                    <p className="text-base font-bold text-primary tabular-nums">
-                      Rp{prod.price.toLocaleString('id-ID')}
-                    </p>
+                  <div className="flex justify-between items-start gap-4 px-1">
+                    <div>
+                      <h3 className="font-headline font-bold text-lg text-on-surface group-hover:text-primary transition-colors duration-200">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-on-surface-variant font-body mt-0.5 line-clamp-1">
+                        {item.colors.map((c) => c.name).join(' · ')}
+                      </p>
+                    </div>
+                    <span className="font-headline font-bold text-lg text-primary whitespace-nowrap tabular-nums">
+                      Rp{item.price.toLocaleString('id-ID')}
+                    </span>
                   </div>
                 </Link>
-              ))}
-            </div>
+              </ScrollReveal>
+            ))}
           </div>
         </section>
 
-        {/* Parent Favorites - Dynamic highlight */}
-        <section className="max-w-7xl mx-auto px-6 py-24">
-          <h2 className="font-headline text-3xl md:text-4xl font-extrabold text-on-surface text-center mb-16">Pilihan Favorit Orang Tua</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden group">
-              <img
-                alt={favoriteItem.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                src={favoriteItem.images[0]}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-10">
-                <h3 className="text-white font-headline text-2xl md:text-3xl font-bold mb-2">{favoriteItem.name}</h3>
-                <p className="text-white/80 mb-6 max-w-sm text-sm md:text-base">{favoriteItem.description}</p>
+        {/* Pilihan Favorit Orang Tua & Komunitas */}
+        <section className="max-w-7xl mx-auto px-6 py-16 md:py-20">
+          <ScrollReveal className="mb-12">
+            <h2 className="font-headline text-3xl md:text-4xl font-bold text-on-surface tracking-tight mb-2">
+              Pilihan Favorit Orang Tua
+            </h2>
+            <p className="text-on-surface-variant font-body">
+              Pakaian paling dicintai oleh keluarga kami karena kenyamanan dan keawetannya.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Hero Favorite Card */}
+            <ScrollReveal className="lg:col-span-6">
+              <Link
+                href={`/product/${favoriteItem.id}`}
+                className="relative h-full min-h-[420px] rounded-3xl overflow-hidden bg-surface-container-low group block shadow-[0_12px_32px_rgba(44,47,46,0.06)]"
+              >
+                <img
+                  alt={favoriteItem.name}
+                  src={favoriteItem.images[0]}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"
+                />
+                <div className="absolute bottom-8 left-8 right-8 text-white">
+                  <p className="text-xs font-medium text-white/85 mb-1.5">
+                    Pilihan terlaris bulan ini
+                  </p>
+                  <h3 className="font-headline text-2xl md:text-3xl font-bold mb-2">
+                    {favoriteItem.name}
+                  </h3>
+                  <p className="text-white/90 text-sm mb-6 max-w-md line-clamp-2 font-body">
+                    {favoriteItem.description}
+                  </p>
+                  <span className="inline-flex items-center gap-2 bg-white text-on-surface px-6 py-2.5 rounded-full font-headline font-bold text-sm shadow-sm group-hover:bg-primary group-hover:text-on-primary transition-colors duration-200">
+                    Beli sekarang — Rp{favoriteItem.price.toLocaleString('id-ID')}
+                  </span>
+                </div>
+              </Link>
+            </ScrollReveal>
+
+            {/* Right Pair + Interactive Voucher */}
+            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <ScrollReveal delayMs={80}>
                 <Link
-                  href={`/product/${favoriteItem.id}`}
-                  className="bg-surface text-on-surface w-fit px-6 py-2.5 rounded-full font-bold text-sm shadow-xl hover:bg-primary hover:text-white transition-colors duration-200 ease-out"
+                  href={`/product/${secondFavorite.id}`}
+                  className="bg-surface-container-lowest rounded-3xl p-5 flex flex-col justify-between group h-full shadow-[0_6px_20px_rgba(44,47,46,0.04)] hover:-translate-y-1 transition-transform duration-300 ease-out"
                 >
-                  Lihat detail
+                  <div className="aspect-square rounded-2xl overflow-hidden bg-surface-container-low mb-4">
+                    <img
+                      alt={secondFavorite.name}
+                      src={secondFavorite.images[0]}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-headline font-bold text-on-surface group-hover:text-primary transition-colors duration-200">
+                      {secondFavorite.name}
+                    </h4>
+                    <p className="font-headline font-bold text-primary mt-1 tabular-nums">
+                      Rp{secondFavorite.price.toLocaleString('id-ID')}
+                    </p>
+                  </div>
                 </Link>
-              </div>
-            </div>
+              </ScrollReveal>
 
-            <div className="bg-secondary-container/20 rounded-3xl p-8 flex flex-col justify-between">
-              <div>
-                <span className="material-symbols-outlined text-secondary text-3xl mb-4" data-icon="eco" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
-                <h3 className="font-headline text-lg font-bold text-on-secondary-container">{secondFavorite.name}</h3>
-                <p className="text-sm text-on-secondary-container/80 mt-1">{secondFavorite.description}</p>
-              </div>
-              <p className="font-headline font-bold text-on-secondary-container text-base tabular-nums mt-4">
-                Rp{secondFavorite.price.toLocaleString('id-ID')}
-              </p>
-            </div>
+              <ScrollReveal delayMs={140}>
+                <Link
+                  href={`/product/${thirdFavorite.id}`}
+                  className="bg-surface-container-lowest rounded-3xl p-5 flex flex-col justify-between group h-full shadow-[0_6px_20px_rgba(44,47,46,0.04)] hover:-translate-y-1 transition-transform duration-300 ease-out"
+                >
+                  <div className="aspect-square rounded-2xl overflow-hidden bg-surface-container-low mb-4">
+                    <img
+                      alt={thirdFavorite.name}
+                      src={thirdFavorite.images[0]}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-headline font-bold text-on-surface group-hover:text-primary transition-colors duration-200">
+                      {thirdFavorite.name}
+                    </h4>
+                    <p className="font-headline font-bold text-primary mt-1 tabular-nums">
+                      Rp{thirdFavorite.price.toLocaleString('id-ID')}
+                    </p>
+                  </div>
+                </Link>
+              </ScrollReveal>
 
-            <div className="bg-tertiary-container/20 rounded-3xl p-8 flex flex-col justify-between">
-              <div>
-                <span className="material-symbols-outlined text-tertiary text-3xl mb-4" data-icon="footprint" style={{ fontVariationSettings: "'FILL' 1" }}>footprint</span>
-                <h3 className="font-headline text-lg font-bold text-on-tertiary-container">{thirdFavorite.name}</h3>
-                <p className="text-sm text-on-tertiary-container/80 mt-1">{thirdFavorite.description}</p>
-              </div>
-              <p className="font-headline font-bold text-on-tertiary-container text-base tabular-nums mt-4">
-                Rp{thirdFavorite.price.toLocaleString('id-ID')}
-              </p>
-            </div>
-
-            <div className="md:col-span-2 bg-primary-fixed-dim/30 rounded-3xl p-8 flex items-center justify-between">
-              <div className="max-w-[65%]">
-                <h3 className="font-headline text-xl md:text-2xl font-bold text-on-primary-fixed">Gabung Komunitas Bunda</h3>
-                <p className="text-on-primary-fixed/80 text-sm mt-1">Gunakan kode voucher KIDZ25 di keranjang untuk potongan Rp25.000!</p>
-              </div>
-              <div className="w-14 h-14 rounded-full primary-gradient flex items-center justify-center text-on-primary shadow-sm flex-shrink-0">
-                <span className="material-symbols-outlined text-2xl" data-icon="mail">mail</span>
-              </div>
+              <ScrollReveal delayMs={180} className="sm:col-span-2">
+                <CommunityVoucherCard />
+              </ScrollReveal>
             </div>
           </div>
         </section>
 
         {/* Newsletter Section */}
-        <section className="max-w-5xl mx-auto px-6 py-20 text-center">
-          <div className="bg-surface-container-high rounded-3xl p-12 md:p-16 relative overflow-hidden">
-            <h2 className="font-headline text-3xl md:text-4xl font-extrabold mb-3 text-on-surface relative z-10">Abadikan Keceriaan Si Kecil</h2>
-            <p className="text-on-surface-variant text-sm md:text-base max-w-lg mx-auto mb-8 leading-relaxed relative z-10 font-body">
-              Tandai akun kami @irsyamkidz di Instagram untuk kesempatan tampil di lookbook digital bulanan kami.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10 max-w-md mx-auto">
-              <input
-                className="px-6 py-3.5 rounded-full border-none bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 w-full font-body text-sm outline-none"
-                placeholder="Masukkan alamat email bunda..."
-                type="email"
-              />
-              <button className="primary-gradient text-on-primary px-8 py-3.5 rounded-full font-headline font-bold text-sm whitespace-nowrap shadow-md hover:shadow-lg transition-shadow duration-200 ease-out">
-                Berlangganan
-              </button>
+        <section className="max-w-7xl mx-auto px-6 py-12 pb-24">
+          <ScrollReveal>
+            <div className="bg-surface-container-low rounded-[2.5rem] px-6 py-16 md:p-20 text-center relative overflow-hidden">
+              <div className="max-w-xl mx-auto relative z-10">
+                <h2 className="font-headline text-3xl md:text-4xl font-black text-on-surface tracking-tight mb-4">
+                  Dapatkan Inspirasi &amp; Promo Hangat
+                </h2>
+                <p className="text-on-surface-variant font-body text-base leading-relaxed mb-8">
+                  Daftar buletin mingguan kami untuk katalog lookbook terbaru, panduan merawat serat alami, serta penawaran khusus anggota.
+                </p>
+                <NewsletterForm />
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
       </main>
 

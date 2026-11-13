@@ -16,6 +16,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] || '');
   const [isAdded, setIsAdded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   const addItem = useCartStore((state) => state.addItem);
 
@@ -29,7 +30,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
 
   return (
     <>
-      <main className="pt-32 px-6 max-w-7xl mx-auto min-h-screen">
+      <main className="pt-32 px-6 max-w-7xl mx-auto min-h-screen animate-fade-up">
         {/* Breadcrumb Navigation */}
         <nav className="mb-8 flex items-center gap-2 text-sm font-medium text-on-surface-variant font-body" aria-label="Breadcrumb">
           <Link className="hover:text-primary transition-colors duration-200 ease-out" href="/">Beranda</Link>
@@ -153,19 +154,24 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                 <span className="text-sm font-semibold text-on-surface-variant font-headline">
                   Pilih ukuran: <span className="text-on-surface font-bold">{selectedSize}</span>
                 </span>
-                <button className="text-xs font-semibold text-primary flex items-center gap-1 hover:underline">
+                <button
+                  type="button"
+                  onClick={() => setShowSizeGuide(true)}
+                  className="text-xs font-semibold text-primary flex items-center gap-1 hover:underline cursor-pointer"
+                >
                   <span className="material-symbols-outlined text-sm">straighten</span>
                   Panduan ukuran
                 </button>
               </div>
-              <div className="inline-flex p-1 bg-surface-container-high rounded-full w-full justify-between">
+              <div className="inline-flex p-1 bg-surface-container-high rounded-full w-full justify-between gap-1">
                 {product.sizes.map((sz) => {
                   const isSelected = selectedSize === sz;
                   return (
                     <button
                       key={sz}
+                      type="button"
                       onClick={() => setSelectedSize(sz)}
-                      className={`flex-1 py-2 rounded-full text-xs font-semibold transition-[background-color,color] duration-200 ease-out ${
+                      className={`flex-1 py-2 px-2 rounded-full text-xs font-semibold whitespace-nowrap transition-[background-color,color] duration-200 ease-out cursor-pointer ${
                         isSelected
                           ? 'bg-primary text-on-primary font-bold shadow-sm'
                           : 'text-on-surface-variant hover:text-on-surface'
@@ -290,6 +296,90 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
           </section>
         )}
       </main>
+
+      {/* Interactive Size Guide Modal */}
+      {showSizeGuide && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-up"
+          onClick={() => setShowSizeGuide(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="size-guide-title"
+        >
+          <div
+            className="bg-surface-container-lowest rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-outline-variant/20"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 mb-5">
+              <div>
+                <h3 id="size-guide-title" className="font-headline text-xl font-bold text-on-surface">
+                  Panduan Ukuran Anak
+                </h3>
+                <p className="text-xs text-on-surface-variant font-body mt-1">
+                  Pengukuran dalam sentimeter (cm) untuk potongan reguler yang nyaman.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowSizeGuide(false)}
+                className="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer"
+                aria-label="Tutup panduan ukuran"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-outline-variant/25">
+              <table className="w-full text-left text-sm font-body">
+                <thead className="bg-surface-container-low font-headline text-xs font-bold text-on-surface">
+                  <tr>
+                    <th className="py-3 px-4">Usia</th>
+                    <th className="py-3 px-4">Tinggi (cm)</th>
+                    <th className="py-3 px-4">Lingkar Dada</th>
+                    <th className="py-3 px-4">Panjang Baju</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-outline-variant/15 tabular-nums text-on-surface-variant">
+                  <tr>
+                    <td className="py-3 px-4 font-semibold text-on-surface">1–2 Thn</td>
+                    <td className="py-3 px-4">80–92</td>
+                    <td className="py-3 px-4">54 cm</td>
+                    <td className="py-3 px-4">38 cm</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-semibold text-on-surface">2–3 Thn</td>
+                    <td className="py-3 px-4">92–100</td>
+                    <td className="py-3 px-4">58 cm</td>
+                    <td className="py-3 px-4">42 cm</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-semibold text-on-surface">4–5 Thn</td>
+                    <td className="py-3 px-4">104–112</td>
+                    <td className="py-3 px-4">62 cm</td>
+                    <td className="py-3 px-4">46 cm</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-semibold text-on-surface">6–7 Thn</td>
+                    <td className="py-3 px-4">116–124</td>
+                    <td className="py-3 px-4">66 cm</td>
+                    <td className="py-3 px-4">50 cm</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-semibold text-on-surface">8–9 Thn</td>
+                    <td className="py-3 px-4">128–136</td>
+                    <td className="py-3 px-4">70 cm</td>
+                    <td className="py-3 px-4">54 cm</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p className="text-xs text-on-surface-variant font-body mt-4 leading-relaxed">
+              Tips Bunda: Jika tinggi badan si kecil berada di antara dua ukuran, pilih satu ukuran lebih besar agar lebih leluasa bergerak.
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
