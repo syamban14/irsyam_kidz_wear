@@ -14,8 +14,8 @@ const beVietnam = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Irsyam Kidz Wear",
-  description: "Modern online store for children's clothing",
+  title: "Irsyam Kidz Wear | Pakaian Anak Modern & Katun Organik",
+  description: "Toko pakaian anak modern berbahan katun organik pilihan, lembut di kulit, dan dirancang untuk kenyamanan bermain si kecil.",
 };
 
 export default function RootLayout({
