@@ -48,32 +48,37 @@ export default function Home() {
 
       <main className="min-h-screen">
         {/* Full-Bleed Atmospheric Hero */}
-        <section className="relative w-full min-h-[92dvh] flex items-end pb-12 md:pb-16 pt-28 overflow-hidden">
+        <section className="relative w-full min-h-[94dvh] flex items-center pb-12 md:pb-16 pt-28 overflow-hidden">
           <img
             src="/images/hero-editorial.jpg"
             alt="Koleksi Pakaian Anak Organik Irsyam Kidz Wear"
-            className="absolute inset-0 w-full h-full object-cover object-center md:object-[68%_center]"
+            className="absolute inset-0 w-full h-full object-cover object-[72%_65%] md:object-[75%_70%] scale-[1.03]"
           />
-          {/* Sunlit Editorial Gradient Overlay for high text contrast */}
+          {/* Sunlit Editorial Gradient Overlay for high text contrast on the left while keeping children on the right clear */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-[#f5f7f5]/85 via-[#f5f7f5]/60 to-[#f5f7f5]/95 md:bg-gradient-to-r md:from-[#f5f7f5]/95 md:via-[#f5f7f5]/72 md:to-transparent"
+            className="absolute inset-0 bg-gradient-to-b from-[#f5f7f5]/88 via-[#f5f7f5]/65 to-[#f5f7f5]/95 md:bg-gradient-to-r md:from-[#f5f7f5] md:via-[#f5f7f5]/82 md:via-45% md:to-transparent"
           />
-          {/* Subtle top edge wash so transparent navbar links/icons stay crisp on bright & shadowed areas */}
+          {/* Soft radial sunlit wash over top-right architectural seam so navbar and upper sky feel seamless */}
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#f5f7f5]/85 via-[#f5f7f5]/45 to-transparent pointer-events-none"
+            className="absolute inset-0 bg-[radial-gradient(ellipse_55%_32%_at_82%_0%,rgba(245,247,245,0.92)_0%,rgba(245,247,245,0.45)_55%,transparent_100%)] pointer-events-none"
+          />
+          {/* Subtle top edge wash so transparent navbar links/icons stay crisp */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#f5f7f5]/90 via-[#f5f7f5]/50 to-transparent pointer-events-none"
           />
 
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
             <div className="max-w-xl">
-              <h1 className="font-headline text-5xl sm:text-6xl md:text-7xl font-black text-on-surface tracking-tight leading-[0.98] mb-5 animate-fade-up">
+              <h1 className="font-headline text-5xl sm:text-6xl md:text-7xl font-black text-on-surface tracking-tight leading-[0.96] mb-5 animate-fade-up">
                 Koleksi Ceria Musim Panas
               </h1>
-              <p className="text-base md:text-lg text-on-surface-variant max-w-md leading-relaxed font-body mb-8 animate-fade-up-delay-1">
+              <p className="text-base md:text-lg text-on-surface-variant max-w-md leading-relaxed font-body mb-7 animate-fade-up-delay-1">
                 Pakaian anak berbahan katun organik sejuk untuk keceriaan bermain dan eksplorasi si buah hati setiap hari.
               </p>
-              <div className="animate-fade-up-delay-1">
+              <div className="mb-8 animate-fade-up-delay-1">
                 <Link
                   href="/catalog"
                   className="primary-gradient text-on-primary px-9 py-4 rounded-full font-headline font-bold text-base inline-flex items-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-[transform,box-shadow] duration-200 ease-out"
@@ -82,9 +87,7 @@ export default function Home() {
                   <span className="material-symbols-outlined text-xl">arrow_forward</span>
                 </Link>
               </div>
-            </div>
 
-            <div className="w-full lg:w-auto lg:min-w-[440px]">
               <HeroInteractiveStage />
             </div>
           </div>

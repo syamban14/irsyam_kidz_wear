@@ -18,6 +18,32 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
   const [isFavorite, setIsFavorite] = useState(false);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
 
+  const activeColorObj =
+    product.colors.find((c) => c.name === selectedColor) || product.colors[0];
+
+  const galleryPerspectives = [
+    {
+      id: 'utuh',
+      label: 'Tampilan utuh',
+      caption: 'Siluet penuh pakaian',
+      imgClass: 'scale-100 origin-center',
+    },
+    {
+      id: 'serat',
+      label: 'Detail serat',
+      caption: 'Tekstur tenun & kerah',
+      imgClass: 'scale-[1.65] origin-[50%_36%]',
+    },
+    {
+      id: 'potongan',
+      label: 'Jatuh kain',
+      caption: 'Detail keliman & jahitan tepi',
+      imgClass: 'scale-[1.45] origin-[50%_78%]',
+    },
+  ];
+  const currentPerspective =
+    galleryPerspectives[selectedImageIndex] || galleryPerspectives[0];
+
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
@@ -45,18 +71,28 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Image Gallery Section */}
           <div className="lg:col-span-7 flex flex-col md:flex-row-reverse gap-4">
-            {/* Main Image */}
+            {/* Main Image with Multi-Perspective Zoom & Interactive Color Tint */}
             <div className="flex-1 rounded-3xl overflow-hidden bg-surface-container-low aspect-[4/5] relative shadow-sm">
               <img
-                alt={product.name}
-                className="w-full h-full object-cover transition-all duration-300 ease-out"
-                src={product.images[selectedImageIndex] || product.images[0]}
+                alt={`${product.name} — ${currentPerspective.label}`}
+                className={`w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${currentPerspective.imgClass}`}
+                src={product.images[0]}
               />
+              {/* Subtle Interactive Color Variant Studio Tint */}
+              {activeColorObj && (
+                <div
+                  aria-hidden="true"
+                  style={{ backgroundColor: activeColorObj.hex }}
+                  className="absolute inset-0 opacity-20 mix-blend-multiply transition-colors duration-300 pointer-events-none"
+                />
+              )}
+
               <div className="absolute top-6 right-6">
                 <button
+                  type="button"
                   onClick={() => setIsFavorite(!isFavorite)}
                   aria-label="Simpan ke favorit"
-                  className={`w-11 h-11 rounded-full backdrop-blur-md flex items-center justify-center shadow-sm transition-[colors,transform] duration-200 ease-out ${
+                  className={`w-11 h-11 rounded-full backdrop-blur-md flex items-center justify-center shadow-sm transition-[background-color,color,transform] duration-200 ease-out cursor-pointer ${
                     isFavorite ? 'bg-rose-50 text-rose-500 scale-105' : 'bg-white/85 text-primary hover:bg-white'
                   }`}
                 >
@@ -68,30 +104,60 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                   </span>
                 </button>
               </div>
+
+              {/* Live Color & Perspective Indicator Pill */}
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-2 pointer-events-none">
+                <div className="glass-nav px-3.5 py-2 rounded-full inline-flex items-center gap-2.5 shadow-sm border border-white/60">
+                  {activeColorObj && (
+                    <span
+                      className="w-3.5 h-3.5 rounded-full border border-black/10 flex-shrink-0 transition-colors duration-300"
+                      style={{ backgroundColor: activeColorObj.hex }}
+                    />
+                  )}
+                  <span className="text-xs font-semibold text-on-surface">
+                    {selectedColor} · <span className="text-on-surface-variant font-normal">{currentPerspective.caption}</span>
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Thumbnails */}
-            {product.images.length > 1 && (
-              <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto md:w-20">
-                {product.images.map((img, idx) => {
-                  const isActive = idx === selectedImageIndex;
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedImageIndex(idx)}
-                      aria-label={`Foto produk ke-${idx + 1}`}
-                      className={`flex-shrink-0 w-20 h-24 md:w-full rounded-2xl overflow-hidden transition-[box-shadow,opacity] duration-200 ease-out ${
-                        isActive
-                          ? 'ring-2 ring-primary ring-offset-2 opacity-100'
-                          : 'opacity-65 hover:opacity-100'
-                      }`}
-                    >
-                      <img alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" src={img} />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
+            {/* Multi-Perspective Thumbnails */}
+            <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto md:w-24">
+              {galleryPerspectives.map((persp, idx) => {
+                const isActive = idx === selectedImageIndex;
+                return (
+                  <button
+                    key={persp.id}
+                    type="button"
+                    onClick={() => setSelectedImageIndex(idx)}
+                    aria-label={`Lihat ${persp.label}`}
+                    className={`flex-shrink-0 w-24 md:w-full rounded-2xl overflow-hidden bg-surface-container-low transition-[box-shadow,opacity] duration-200 ease-out cursor-pointer text-left ${
+                      isActive
+                        ? 'ring-2 ring-primary ring-offset-2 opacity-100'
+                        : 'opacity-70 hover:opacity-100'
+                    }`}
+                  >
+                    <div className="aspect-[4/4] overflow-hidden relative">
+                      <img
+                        alt={persp.label}
+                        className={`w-full h-full object-cover ${persp.imgClass}`}
+                        src={product.images[0]}
+                      />
+                      {activeColorObj && (
+                        <div
+                          aria-hidden="true"
+                          style={{ backgroundColor: activeColorObj.hex }}
+                          className="absolute inset-0 opacity-20 mix-blend-multiply transition-colors duration-300 pointer-events-none"
+                        />
+                      )}
+                    </div>
+                    <span className="block text-[11px] font-semibold text-on-surface px-2 py-1.5 truncate text-center bg-surface-container-lowest">
+                      {persp.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Product Details Section */}

@@ -31,14 +31,15 @@ export function HeroInteractiveStage() {
   const featuredProduct = PRODUCTS.find((p) => p.id === currentMood.productId) || PRODUCTS[0];
 
   return (
-    <div className="glass-nav rounded-3xl p-4 md:p-5 shadow-[0_20px_50px_rgba(44,47,46,0.12)] max-w-xl animate-fade-up-delay-2">
+    <div className="glass-nav rounded-3xl p-3.5 md:p-4 shadow-[0_16px_40px_rgba(44,47,46,0.09)] max-w-lg border border-white/60 animate-fade-up-delay-2">
       {/* Connected Segmented Pills for Mood Selection */}
-      <div className="inline-flex flex-wrap sm:flex-nowrap p-1 bg-surface-container-high/80 rounded-full mb-4 w-full justify-between gap-1">
+      <div className="inline-flex flex-wrap sm:flex-nowrap p-1 bg-surface-container-high/85 rounded-full mb-3 w-full justify-between gap-1">
         {MOOD_SCENES.map((mood, idx) => {
           const isActive = idx === activeMoodIndex;
           return (
             <button
               key={mood.id}
+              type="button"
               onClick={() => setActiveMoodIndex(idx)}
               className={`flex-1 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-[background-color,color,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-pointer ${
                 isActive
@@ -55,9 +56,9 @@ export function HeroInteractiveStage() {
       {/* Interactive Preview Card */}
       <Link
         href={`/product/${featuredProduct.id}`}
-        className="flex items-center gap-4 group bg-surface-container-lowest/90 rounded-2xl p-3 hover:bg-surface-container-lowest transition-colors duration-200 ease-out"
+        className="flex items-center gap-3.5 group bg-surface-container-lowest/95 rounded-2xl p-2.5 pr-3.5 hover:bg-surface-container-lowest transition-colors duration-200 ease-out"
       >
-        <div className="w-16 h-20 rounded-xl overflow-hidden bg-surface-container-low flex-shrink-0">
+        <div className="w-14 h-16 rounded-xl overflow-hidden bg-surface-container-low flex-shrink-0">
           <img
             src={featuredProduct.images[0]}
             alt={featuredProduct.name}
@@ -65,16 +66,16 @@ export function HeroInteractiveStage() {
           />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-medium text-primary mb-0.5">{currentMood.tagline}</p>
-          <h3 className="font-headline font-bold text-sm md:text-base text-on-surface truncate group-hover:text-primary transition-colors duration-200">
+          <p className="text-xs font-medium text-primary mb-0.5 truncate">{currentMood.tagline}</p>
+          <h3 className="font-headline font-bold text-sm text-on-surface truncate group-hover:text-primary transition-colors duration-200">
             {featuredProduct.name}
           </h3>
-          <p className="font-headline font-bold text-sm text-on-surface-variant tabular-nums">
+          <p className="font-headline font-bold text-xs text-on-surface-variant tabular-nums">
             Rp{featuredProduct.price.toLocaleString('id-ID')}
           </p>
         </div>
-        <span className="w-9 h-9 rounded-full bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-primary flex items-center justify-center transition-colors duration-200 flex-shrink-0">
-          <span className="material-symbols-outlined text-lg">arrow_forward</span>
+        <span className="w-8 h-8 rounded-full bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-primary flex items-center justify-center transition-colors duration-200 flex-shrink-0">
+          <span className="material-symbols-outlined text-base">arrow_forward</span>
         </span>
       </Link>
     </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { PRODUCTS } from '@/data/products';
 import { useCartStore } from '@/store/cartStore';
 
 export default function CartPage() {
@@ -17,6 +18,7 @@ export default function CartPage() {
 
   const {
     items,
+    addItem,
     removeItem,
     updateQuantity,
     applyPromoCode,
@@ -37,6 +39,9 @@ export default function CartPage() {
   const shippingFee = mounted ? getShippingFee() : 0;
   const serviceFee = mounted && items.length > 0 ? 1000 : 0;
   const finalTotal = mounted ? getFinalTotal() : 0;
+  const complementaryProducts = PRODUCTS.filter(
+    (p) => !items.some((i) => i.product.id === p.id)
+  ).slice(0, 3);
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,7 +103,7 @@ export default function CartPage() {
     <>
       <Navbar />
 
-      <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen">
+      <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen animate-fade-up">
         <header className="mb-10">
           <h1 className="font-headline text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight mb-2">
             Keranjang Belanja
@@ -328,7 +333,7 @@ export default function CartPage() {
                     <div className="w-full h-1.5 bg-surface-container-lowest/50 rounded-full overflow-hidden">
                       <div
                         style={{ width: `${Math.min(100, Math.round((subtotal / 250000) * 100))}%` }}
-                        className="h-full bg-tertiary-dim rounded-full transition-all duration-300"
+                        className="h-full bg-tertiary-dim rounded-full transition-[width] duration-300 ease-out"
                       ></div>
                     </div>
                   </div>
@@ -336,6 +341,79 @@ export default function CartPage() {
               )}
             </aside>
           </div>
+        )}
+
+        {/* Complementary Quick-Add Products */}
+        {complementaryProducts.length > 0 && (
+          <section className="mt-20 pt-12 border-t border-outline-variant/15">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div>
+                <h2 className="font-headline text-2xl font-bold text-on-surface">
+                  Pilihan Pelengkap untuk Si Kecil
+                </h2>
+                <p className="text-sm text-on-surface-variant font-body mt-1">
+                  {subtotal > 0 && subtotal < 250000
+                    ? `Tambahkan 1 pakaian lagi untuk langsung menikmati pengiriman gratis.`
+                    : `Rekomendasi koleksi katun organik favorit Bunda.`}
+                </p>
+              </div>
+              <Link
+                href="/catalog"
+                className="text-primary font-headline font-bold text-sm inline-flex items-center gap-1.5 hover:gap-2.5 transition-[gap] duration-200"
+              >
+                <span>Lihat semua koleksi</span>
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {complementaryProducts.map((prod) => (
+                <div
+                  key={prod.id}
+                  className="bg-surface-container-lowest rounded-3xl p-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow duration-200"
+                >
+                  <Link
+                    href={`/product/${prod.id}`}
+                    className="w-20 h-24 rounded-2xl overflow-hidden bg-surface-container-low flex-shrink-0 block"
+                  >
+                    <img
+                      src={prod.images[0]}
+                      alt={prod.name}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </Link>
+                  <div className="flex-1 min-w-0">
+                    <Link href={`/product/${prod.id}`}>
+                      <h3 className="font-headline font-bold text-sm text-on-surface truncate hover:text-primary transition-colors">
+                        {prod.name}
+                      </h3>
+                    </Link>
+                    <p className="text-xs text-on-surface-variant mt-0.5">
+                      {prod.sizes[0]} · {prod.colors[0]?.name}
+                    </p>
+                    <p className="font-headline font-bold text-sm text-primary tabular-nums mt-1">
+                      Rp{prod.price.toLocaleString('id-ID')}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        addItem(
+                          prod,
+                          prod.sizes[0] || 'Standar',
+                          prod.colors[0]?.name || 'Standar',
+                          1
+                        )
+                      }
+                      className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-sm">add_shopping_cart</span>
+                      <span>Tambah ke keranjang</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         )}
 
         {/* Payment Confirmation Modal */}
